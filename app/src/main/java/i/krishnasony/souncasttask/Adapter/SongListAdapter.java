@@ -1,5 +1,6 @@
 package i.krishnasony.souncasttask.Adapter;
 
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +17,15 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import i.krishnasony.souncasttask.MVVM.Model.Results;
 import i.krishnasony.souncasttask.MVVM.Model.SongListPojo;
+import i.krishnasony.souncasttask.MVVM.Navigator.Navigator;
 import i.krishnasony.souncasttask.R;
+import i.krishnasony.souncasttask.SongsListActivity;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongsViewHolder> {
 
     Context mCtx;
     List<Results> songList;
+    private Navigator  clickListener;
 
     public SongListAdapter(Context mCtx, List<Results> songList) {
         this.mCtx = mCtx;
@@ -45,6 +49,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongsV
 
         songsViewHolder.textViewtitle.setText(songs.getTitle());
 
+
     }
 
     @Override
@@ -52,7 +57,12 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongsV
         return songList.size();
     }
 
-    public class SongsViewHolder extends RecyclerView.ViewHolder {
+    public void setClickListener(Navigator itemClickListener) {
+        this.clickListener =  itemClickListener;
+    }
+
+
+    public class SongsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textViewtitle;
         ImageView downloadservice ;
         CircleImageView songthumbnail;
@@ -62,6 +72,13 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongsV
             textViewtitle = itemView.findViewById(R.id.songtitle);
             downloadservice = itemView.findViewById(R.id.downloadsong);
             songthumbnail = itemView.findViewById(R.id.thumbnailsong);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (clickListener != null) clickListener.onClick(view, getAdapterPosition());
+
         }
     }
 }

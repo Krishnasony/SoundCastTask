@@ -43,4 +43,8 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.6.1'
+   //mediaplayer
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.7.3'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.7.3'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.3'
 }

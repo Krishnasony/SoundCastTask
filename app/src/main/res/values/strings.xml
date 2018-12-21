@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SounCastTask</string>
     <string name="app_title">Sound Cast</string>
+    <string name="created_at">Created at :</string>
+    <string name="add_music">Add Music</string>
+    <string name="now_playing">Now Playing</string>
 </resources>
