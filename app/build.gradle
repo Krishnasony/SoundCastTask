@@ -41,4 +41,6 @@ dependencies {
     implementation "android.arch.lifecycle:viewmodel:1.1.1"
     //circularImage View
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
 }

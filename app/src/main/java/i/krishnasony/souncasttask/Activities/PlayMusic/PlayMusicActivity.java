@@ -3,7 +3,8 @@ package i.krishnasony.souncasttask.Activities.PlayMusic;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import i.krishnasony.soundcast.R;
+import i.krishnasony.souncasttask.R;
+
 
 public class PlayMusicActivity extends AppCompatActivity {
 
