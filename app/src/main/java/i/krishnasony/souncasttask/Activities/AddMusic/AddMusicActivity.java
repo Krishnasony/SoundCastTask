@@ -2,6 +2,7 @@ package i.krishnasony.souncasttask.Activities.AddMusic;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -22,6 +23,7 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
@@ -50,7 +52,7 @@ public class AddMusicActivity extends AppCompatActivity implements View.OnClickL
     private byte[] imageByte = null;
     private byte[] musicByte = null;
     Toolbar toolbar;
-
+    ProgressDialog mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,10 @@ public class AddMusicActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_add_music);
         init();
         //back press
+        mProgressBar = new ProgressDialog(this);
+//        mProgressBar.setTitle("Loading Songs");
+        mProgressBar.setMessage("Uploading Song");
+        mProgressBar.setCanceledOnTouchOutside(false);
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +112,7 @@ public class AddMusicActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         Songtitle = editTextsongtitle.getText().toString();
         uploadfile();
-
+        mProgressBar.show();
 
     }
 
@@ -138,9 +144,11 @@ public class AddMusicActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void uploadfile() {
+
         final ParseObject entity = new ParseObject("songs_library");
         final ParseFile thumbnail = new ParseFile(buttonupload_thumnail.getText().toString(), imageByte);
         ParseFile audio = new ParseFile(buttonuploadsong.getText().toString(), musicByte);
+
 
         entity.put("title", Songtitle);
         entity.put("link", "lik");
@@ -163,6 +171,7 @@ public class AddMusicActivity extends AppCompatActivity implements View.OnClickL
                                     @Override
                                     public void done(ParseException e) {
                                         if(e == null){
+                                            mProgressBar.hide();
                                             Toast.makeText(AddMusicActivity.this, "Upload Successfully", Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(AddMusicActivity.this,SongsListActivity.class));
 

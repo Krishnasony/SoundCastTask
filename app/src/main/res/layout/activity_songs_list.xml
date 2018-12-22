@@ -18,6 +18,7 @@
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:titleTextColor="@color/colorwhite"
             android:fitsSystemWindows="true"
             style="@style/TitleTextStyle"
             app:contentScrim="@color/colorwhite"
@@ -37,7 +38,6 @@
             <android.support.v7.widget.Toolbar
                 android:fitsSystemWindows="true"
                 android:id="@+id/toolbar"
-                app:titleTextColor="@color/colorwhite"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -69,6 +69,13 @@
         android:background="@drawable/backgroun_playmusic"
         android:text="Add Music"
         android:textColor="@color/colorwhite" />
+<ProgressBar
+        android:id="@+id/google_progress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>

@@ -14,8 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 
 import java.io.Serializable;
@@ -37,6 +39,8 @@ public class SongsListActivity extends AppCompatActivity implements Navigator {
     SongListAdapter songListAdapter;
     Toolbar toolbar;
     Button addmusic;
+    ProgressBar mprogressbar;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -47,12 +51,19 @@ public class SongsListActivity extends AppCompatActivity implements Navigator {
         init();
 
         toolbar.setTitle(R.string.app_title);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+
+        }
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         SongListViewModel songListViewModel = ViewModelProviders.of(this).get(SongListViewModel.class);
         songListViewModel.getSongs().observe(this, new Observer<List<Results>>() {
             @Override
             public void onChanged(@Nullable List<Results> results) {
                 songlist = new ArrayList<>(results);
+
 
                 songListAdapter = new SongListAdapter(SongsListActivity.this,results);
 
@@ -77,6 +88,7 @@ public class SongsListActivity extends AppCompatActivity implements Navigator {
         recyclerView = findViewById(R.id.songlist_rv);
         toolbar = findViewById(R.id.toolbar);
         addmusic = findViewById(R.id.addmusic);
+
 
 
     }
