@@ -1,8 +1,11 @@
 package i.krishnasony.souncasttask.MVVM.Model;
+
+import java.io.Serializable;
+
 /**
  * Awesome Pojo Generator
  * */
-public class Results{
+public class Results implements Serializable {
   private String createdAt;
   private String thumbnail;
   private String link;

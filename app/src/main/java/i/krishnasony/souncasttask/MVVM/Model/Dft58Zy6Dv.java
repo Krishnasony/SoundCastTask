@@ -1,8 +1,11 @@
 package i.krishnasony.souncasttask.MVVM.Model;
+
+import java.io.Serializable;
+
 /**
  * Awesome Pojo Generator
  * */
-public class Dft58Zy6Dv{
+public class Dft58Zy6Dv implements Serializable {
   private Boolean read;
   private Boolean write;
   public void setRead(Boolean read){

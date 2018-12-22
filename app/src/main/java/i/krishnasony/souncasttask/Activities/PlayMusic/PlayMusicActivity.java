@@ -17,19 +17,15 @@ import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import i.krishnasony.souncasttask.MVVM.Model.Results;
 import i.krishnasony.souncasttask.R;
 import i.krishnasony.souncasttask.SongsListActivity;
 
@@ -41,6 +37,9 @@ public class PlayMusicActivity extends AppCompatActivity {
     Uri uri;
     MediaPlayer mediaPlayer;
     Toolbar toolbar;
+    ArrayList<Results> list;
+    int position;
+    String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +56,24 @@ public class PlayMusicActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        String title = intent.getStringExtra("Songname");
+         title = intent.getStringExtra("Songname");
         textViewtitle.setText(title);
         Glide.with(this)
                 .load(intent.getStringExtra("songThumbnail"))
                 .into(imageViewthumbnail);
         uri = Uri.parse(intent.getStringExtra("link"));
+        position = intent.getIntExtra("position",0);
+
+
+
+        //get the bundle
+        Bundle b = getIntent().getExtras();
+        //getting the arraylist from the key
+        list = (ArrayList<Results>) b.getSerializable("list");
+
+
+
+
         mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.setDataSource(PlayMusicActivity.this, uri);
@@ -77,8 +88,7 @@ public class PlayMusicActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!mediaPlayer.isPlaying()){
-
-                    Toast.makeText(PlayMusicActivity.this, "uri" + uri, Toast.LENGTH_SHORT).show();
+                        //playmusic
                         mediaPlayer.start();
 
 
@@ -104,6 +114,7 @@ public class PlayMusicActivity extends AppCompatActivity {
             }
         });
 
+
 //manually seekbar change
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -122,6 +133,67 @@ public class PlayMusicActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        //play next song
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                position = position+1;
+                Results results = list.get(position);
+                Uri uri = Uri.parse(results.getLink());
+                try {
+                    mediaPlayer.setDataSource(PlayMusicActivity.this,uri);
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.prepare(); //don't use prepareAsync for mp3 playback
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.start();
+                play.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                title = results.getTitle();
+                textViewtitle.setText(title);
+                Glide.with(PlayMusicActivity.this)
+                        .load(results.getThumbnail())
+                        .into(imageViewthumbnail);
+
+
+
+
+
+
+
+            }
+        });
+
+        //play previous song
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                position = position-1;
+                Results results = list.get(position);
+                Uri uri = Uri.parse(results.getLink());
+                try {
+                    mediaPlayer.setDataSource(PlayMusicActivity.this,uri);
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.prepare(); //don't use prepareAsync for mp3 playback
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mediaPlayer.start();
+                play.setImageResource(R.drawable.ic_pause_circle_filled_black_24dp);
+                title = results.getTitle();
+                textViewtitle.setText(title);
+                Glide.with(PlayMusicActivity.this)
+                        .load(results.getThumbnail())
+                        .into(imageViewthumbnail);
+
 
             }
         });
